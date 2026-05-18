@@ -119,8 +119,8 @@ body::after {
 .profile-avatar:hover { transform: scale(1.05); }
 .profile-name {
   font-family: "Noto Serif SC", serif;
-  font-size: 1.1rem; font-weight: 700;
-  color: #08367c;
+  font-size: 1.1rem; font-weight: 900;
+  color: #000;
 }
 .dark .profile-name { color: #8fb9f0; }
 .profile-motto {
@@ -193,6 +193,15 @@ body::after {
 .page > article,
 .page > article * {
   text-align: left !important;
+}
+
+/* ===== 强化加粗效果 ===== */
+strong, b {
+  font-weight: 800;
+  color: #0a141f;
+}
+.dark strong, .dark b {
+  color: #ffffff;
 }
 
 /* ===== 正文排版 ===== */
