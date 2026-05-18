@@ -1,0 +1,97 @@
+import { QuartzConfig } from "./quartz/cfg"
+import * as Plugin from "./quartz/plugins"
+
+const config: QuartzConfig = {
+  configuration: {
+    // 🔧 改掉默认标题，这里用你的网名或代号
+    pageTitle: "today的二进制花园",
+    pageTitleSuffix: " · Binary Garden",
+    enableSPA: true,
+    enablePopovers: true,
+    analytics: {
+      // 暂时留空，后面可以接入 umami 或 plausible
+      provider: "plausible",
+    },
+    locale: "zh-CN",
+    // ⚠️ 上线时改成你的真实域名，例如 "https://blog.example.com"
+    baseUrl: "https://todaymvp.github.io/myblog",
+    ignorePatterns: ["private", "templates", ".obsidian"],
+    defaultDateType: "created",  // 按创建时间排序，更自然
+    theme: {
+      fontOrigin: "googleFonts",
+      cdnCaching: true,
+      typography: {
+        // 用等宽字体做标题，有终端感；正文用衬线体增加可读性
+        header: "Noto Sans SC",
+        body: "Noto Sans SC",
+        code: "JetBrains Mono",
+      },
+      colors: {
+        // 浅色模式：暖灰底，低饱和度，护眼
+        lightMode: {
+          light: "#f5f0e8",
+          lightgray: "#e0dcd3",
+          gray: "#b0a89c",
+          darkgray: "#4a4540",
+          dark: "#2b2723",
+          secondary: "#3a5f6f",
+          tertiary: "#6b8e8a",
+          highlight: "rgba(107, 142, 138, 0.15)",
+          textHighlight: "#e6c04988",
+        },
+        // 深色模式：墨蓝底，亮青/橙点缀，黑客终端风
+        darkMode: {
+          light: "#0f1722",
+          lightgray: "#1e2836",
+          gray: "#546577",
+          darkgray: "#bcc4d0",
+          dark: "#e1e6ee",
+          secondary: "#4fc3f7",
+          tertiary: "#ffb74d",
+          highlight: "rgba(79, 195, 247, 0.12)",
+          textHighlight: "#ffb74d88",
+        },
+      },
+    },
+  },
+  plugins: {
+    transformers: [
+      Plugin.FrontMatter(),
+      Plugin.CreatedModifiedDate({
+        priority: ["frontmatter", "git", "filesystem"],
+      }),
+      Plugin.SyntaxHighlighting({
+        theme: {
+          light: "github-light",
+          dark: "github-dark",
+        },
+        keepBackground: false,
+      }),
+      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
+      Plugin.GitHubFlavoredMarkdown(),
+      Plugin.TableOfContents(),
+      Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      Plugin.Description(),
+      Plugin.Latex({ renderEngine: "katex" }),
+    ],
+    filters: [Plugin.RemoveDrafts()],
+    emitters: [
+      Plugin.AliasRedirects(),
+      Plugin.ComponentResources(),
+      Plugin.ContentPage(),
+      Plugin.FolderPage(),
+      Plugin.TagPage(),
+      Plugin.ContentIndex({
+        enableSiteMap: true,
+        enableRSS: true,
+      }),
+      Plugin.Assets(),
+      Plugin.Static(),
+      Plugin.Favicon(),
+      Plugin.NotFoundPage(),
+//      Plugin.CustomOgImages(),
+    ],
+  },
+}
+
+export default config

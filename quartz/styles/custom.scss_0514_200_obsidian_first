@@ -1,0 +1,126 @@
+@use "./base.scss";
+
+/* ===== 背景图（你刚换的蓝色山脉 bp.jpg）清晰展示 ===== */
+html, body {
+  background-image: url('static/bp.jpg') !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* 可选：叠加一层极淡的蓝紫色光晕，让背景更有层次（模仿 Obsidian 的柔光效果） */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 40%, rgba(160, 190, 230, 0.2) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.dark body::after {
+  background: radial-gradient(circle at 30% 40%, rgba(80, 110, 170, 0.25) 0%, transparent 60%);
+}
+
+/* ===== 内容卡片：蓝宝石风格的毛玻璃 ===== */
+.page {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border-radius: 18px;
+  padding: 2rem 2.5rem;
+  margin: 1.5rem auto;
+  max-width: 950px;
+  box-shadow: 0 8px 32px rgba(58, 110, 165, 0.08),
+              0 0 0 1px rgba(58, 110, 165, 0.1);
+}
+
+.dark .page {
+  background-color: rgba(30, 41, 59, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+              0 0 0 1px rgba(107, 159, 212, 0.1);
+}
+
+/* ===== 文字清晰显眼 ===== */
+body {
+  color: #2c3a4b !important;
+  font-weight: 400;
+  line-height: 1.8;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #1a2a3a !important;
+  font-weight: 700;
+}
+.article-title {
+  color: #1a2a3a !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.dark body { color: #d0d8e4 !important; }
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 { color: #eef2f8 !important; }
+.dark .article-title { color: #eef2f8 !important; }
+
+/* ===== 链接：Blue Topaz 的蓝宝石色 ===== */
+a {
+  color: #3a6ea5;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(58, 110, 165, 0.3);
+  transition: all 0.2s;
+}
+a:hover {
+  color: #5d8fc0;
+  border-bottom-color: #5d8fc0;
+}
+
+/* ===== 代码块 ===== */
+pre {
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  background-color: rgba(58, 110, 165, 0.03) !important;
+}
+.dark pre {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-color: rgba(107, 159, 212, 0.2);
+}
+
+/* ===== 滚动条、标签等细节 ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+::-webkit-scrollbar-thumb { background: #8b9bb5; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a6ea5; }
+
+.popover {
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(58, 110, 165, 0.12);
+}
+.dark .popover {
+  background-color: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(107, 159, 212, 0.15);
+}
+
+.tag {
+  border-radius: 20px;
+  padding: 0.15em 0.7em;
+  font-size: 0.8em;
+  font-weight: 500;
+  background-color: rgba(58, 110, 165, 0.1);
+  color: #3a6ea5;
+  transition: all 0.2s;
+}
+.tag:hover {
+  background-color: #3a6ea5;
+  color: #fff;
+}
+
+body.slug-index .page {
+  margin-top: 2.5rem;
+}

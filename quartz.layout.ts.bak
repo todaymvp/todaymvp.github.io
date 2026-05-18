@@ -1,0 +1,55 @@
+import Busuanzi from "./quartz/components/Busuanzi"
+import { PageLayout, SharedLayout } from "./quartz/cfg"
+import * as Component from "./quartz/components"
+import ProfileCard from "./quartz/components/ProfileCard"
+
+export const sharedPageComponents: SharedLayout = {
+  head: Component.Head(),
+  header: [Busuanzi],
+  afterBody: [],
+  footer: Component.Footer({
+    links: {
+      "GitHub": "https://github.com/todaymvp",
+      "RSS": "/index.xml",
+      "关于": "/navigation",
+    },
+  }),
+}
+
+export const defaultContentPageLayout: PageLayout = {
+  beforeBody: [
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
+    Component.TagList(),
+  ],
+  left: [
+    Component.PageTitle(),
+    Component.Search(),
+    Component.Darkmode(),
+    Component.Explorer(),          // 文件树
+  ],
+  right: [
+    ProfileCard,                    // 头像、座右铭、导航
+    Component.DesktopOnly(
+      Component.TableOfContents()   // 文章目录，仅桌面端显示
+    ),
+  ],
+}
+
+export const defaultListPageLayout: PageLayout = {
+  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  left: [
+    Component.PageTitle(),
+    Component.Search(),
+    Component.Darkmode(),
+    Component.Explorer(),
+  ],
+  right: [
+    ProfileCard,
+    Component.DesktopOnly(Component.TableOfContents()),
+  ],
+}

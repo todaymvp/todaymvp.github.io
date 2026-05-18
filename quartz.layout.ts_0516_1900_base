@@ -1,0 +1,52 @@
+import { PageLayout, SharedLayout } from "./quartz/cfg"
+import * as Component from "./quartz/components"
+import ProfileCard from "./quartz/components/ProfileCard"
+
+export const sharedPageComponents: SharedLayout = {
+  head: Component.Head(),
+  header: [],
+  afterBody: [],
+  footer: Component.Footer({
+    links: {
+      "GitHub": "https://github.com/todaymvp",
+      "RSS": "/index.xml",
+      "关于": "/navigation",
+    },
+  }),
+}
+
+export const defaultContentPageLayout: PageLayout = {
+  beforeBody: [
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
+    Component.TagList(),
+  ],
+  left: [
+    Component.PageTitle(),
+    Component.Search(),
+    Component.Darkmode(),
+    Component.Explorer(),
+  ],
+  right: [
+    ProfileCard,
+    // 新增：桌面端显示文章二级标题，并留出间距
+    Component.DesktopOnly(
+      Component.TableOfContents()
+    ),
+  ],
+}
+
+export const defaultListPageLayout: PageLayout = {
+  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  left: [
+    Component.PageTitle(),
+    Component.Search(),
+    Component.Darkmode(),
+    Component.Explorer(),
+  ],
+  right: [ProfileCard],
+}
