@@ -3,6 +3,7 @@ title: 步六孤的二进制博客
 date: 2026-05-15
 tags:
   - index
+blog: pwn
 ---
 
 # 🏴‍☠️ whoami
