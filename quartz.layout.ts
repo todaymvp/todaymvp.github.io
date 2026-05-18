@@ -10,10 +10,10 @@ export const sharedPageComponents: SharedLayout = {
     Component.Comments({
       provider: 'giscus',
       options: {
-        repo: 'todaymvp/myblog',
-        repoId: 'R_kgDOSdI-ew',
+        repo: 'todaymvp/todaymvp.github.io',
+        repoId: 'R_kgDOSgiQwQ',
         category: 'Announcements',
-        categoryId: 'DIC_kwDOSdI-e84C9OKA',
+        categoryId: 'DIC_kwDOSgiQwc4C9SjX',
         mapping: "pathname",
         strict: false,
         reactionsEnabled: true,
