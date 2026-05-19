@@ -125,5 +125,56 @@ p.interactive()
 ![[Pasted image 20260518201922.png|我们填充的leave执行前]]
 	现在栈迁移完成了，然后还有一个`leave,ret`的指令里面的`ret`指令即将执行，使得`esp`指针抬高四字节，指向`system`,最终执行`system('bin/sh')`
 ![[Pasted image 20260518202131.png|成功执行system('bin/sh']]
+
+### 3.3 ebp,eip,ebp寄存器在栈迁移过程中的变化
+- 记住了：
+发送payload前:`leave`指令后，`push ebp`让**ebp从vul函数栈帧的栈基址回到main函数的栈基址**
+> 发送payload后
+
+|寄存器|leave前|leave1(mov esp,ebp)|leave2(push ebp)|ret|leave(我们填充上去的)|
+|-----|-----|-----|-----|------|-----
+|esp|0xffb12520|0xffb12548|0xffb1254c|0xffb12550|0xffb12524|
+|[esp] (即esp指向的地址的值)|0xaaaa|0xffb12520|被我们填充的leave|不重要|system
+|ebp|0xffb12548|0xffb12548|0xffb12520|0xffb12520|(0xaaaa)不重要
+|[ebp]同理|0xffb12520|0xffb12520|0xaaaa|0xaaaa|不重要|
+|eip|leave1|push ebp|ret|leave|ret|
+### 3.4总结原理:
+- 第一个leave是让ebp迁移到原来的栈顶，但这个时候esp还没迁移过来，不好劫持程序流程
+- 第二个leave是让esp迁移会原来的栈顶，方便执行`system('.bin/sh')`
+
+**只要你能想明白3.3的表格，那么你就能想明白栈迁移到原理。**
+
 	栈迁移原理大概就是这样，最好自己gdb调试看看
+**学习心得**
+> 我也是从栈迁移才开始**从程序执行流程来想**，用gdb来看，才明白程序的执行流程，感觉真的明白了pwn。*在这之前都是脚本小子，只会套模板构造payload*
 ## 4.复现
+### 4.1 前置准备
+- 获取,可用的gadget `leave ,ret`的指令地址,获取system的plt地址
+```shell
+ ROPgadget --binary ciscn_2019_s_4 |grep leave
+ objdump -d ciscn_2019_s_4|grep system            
+```
+### 4.2先拿到有关的ebp的真实地址
+- 因为我们要把`ebp`迁移到栈顶的话,就要拿到`ebp`的真实地址，而且经过调试分析：
+![[Pasted image 20260519191203.png|栈帧]]
+ **我们发现main函数的栈基址在vul的栈基址的0x10上面处**
+ - 我们先通过覆盖到ebp处，把[ebp]即main函数的栈基址打印出来,现在用B来定位
+ - payload0
+ ```python
+ payload0 =b'a'*0x27+b'B'
+ ```
+ 这样就能拿到`main`的`ebp`了，而缓冲区起点则是`ebp-0x28`即`main_ebp-0x38`
+ ### 4.3分析
+ 有`system函数`但没`/bin/sh`字符串。那我们计算，第二次leave后，即mov esp,ebp,push ebp.
+ - `mov esp,ebp`,此时`esp`回到缓冲区起点，即`esp= main_ebp-0x38`,
+ - `push ebp`,此时`esp= esp+4`,即`esp = main_ebp - 0x34`
+ - 而`esp`指向的 `main_ebp - 0x34`处要放`system_plt`调用`system`函数
+ - 为了对齐，`system`后的内存单元`main_ebp - 0x30` 还要放`0`
+ - 所以`main_ebp - 0x2c`处放填`/bin/sh`的位置作为`system`的参数
+ - 所以`main_ebp - 0x28`处填入`/bin/sh`是最方便的，也方便计算。
+ - 再把`leave , ret`填入payload中
+ 所以得到`payload`,
+ ```python
+ payload = payload = (b'aaaa'+p32(system)+p32(0)+p32(ebp-0x28)+b'/bin/sh').ljust(0x28,b'\x00')+p32(ebp-0x38)+p32(leave_ret)
+ ```
+ ### 4.4 总的exp前面已经给过了
