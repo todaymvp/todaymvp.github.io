@@ -41,6 +41,7 @@ export default (() => {
         <title>{title}</title>
         <meta charSet="utf-8" />
         <meta name="msvalidate.01" content="85E6BA63EB775FBC7E85536D1760FEDD" />
+        <meta name="google-site-verification" content="ur25qBeKyF6RIfNxQ_bs1h22JTL3SUf_1U5U3gcXGAo" />
         {cfg.theme.cdnCaching && cfg.theme.fontOrigin === "googleFonts" && (
           <>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
