@@ -1,8 +1,9 @@
 ---
-title: 栈迁移
-date: 2026-05-18
-tag:
- - stack
+title: "PWN之栈迁移详解 | 二进制安全系列"  # 标题中加入关键词
+description: "本文深入浅出地讲解了栈迁移技术的原理、利用条件和完整的EXP编写过程。"
+tags:
+  - stack
+  - pwn
 ---
 
 # 一.栈迁移
