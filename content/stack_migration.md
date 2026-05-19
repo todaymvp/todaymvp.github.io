@@ -122,7 +122,7 @@ p.interactive()
 现在，我们的payload里面的`leave,ret`被填入eip寄存器，即将再次执行`leave `
 ，将会把esp指针放到ebp处，即esp又回到最开始的栈顶，以便执行我们的rop链，然后ebp指向0xaaaa![[Pasted image 20260518201922.png|我们填充的leave执行前]]
 现在栈迁移完成了，然后还有一个`leave,ret`的指令里面的`ret`指令即将执行，使得esp指针抬高四字节，指向system,最终执行`system('bin/sh')
-![[Pasted image 20260518202131.png]]
+![[Pasted image 20260518202131.png|成功执行system('bin/sh']]
 	栈迁移原理大概就是这样，最好自己gdb调试看看
 	
 ### 3.3 payload的构造
