@@ -358,10 +358,3 @@ a:hover { color: #2c5282; border-bottom-color: #2c5282; }
     max-width: 100%;
   }
 }
-
-/* 修复文章列表中重复 h1 的问题 */
-.page-listing h1,
-.section-li h1 {
-  font-size: 1.2em;
-  font-weight: 500;
-}

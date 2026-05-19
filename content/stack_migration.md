@@ -1,6 +1,6 @@
 ---
-title: "PWN之栈迁移详解 | 二进制安全系列"  # 标题中加入关键词
-description: "本文深入浅出地讲解了栈迁移技术的原理、利用条件和完整的EXP编写过程。"
+title: PWN之栈迁移详解
+description: 本文深入浅出地讲解了栈迁移技术的原理、利用条件和完整的EXP编写过程。
 tags:
   - stack
   - pwn

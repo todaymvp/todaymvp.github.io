@@ -3,6 +3,7 @@ title: 步六孤的二进制博客
 date: 2026-05-15
 tags:
   - index
+description: "一个 Pwn 手的二进制安全博客，,这里是index页，自我介绍，专注栈、堆利用与 CTF 赛题复现。"
 ---
 
 # 前言
