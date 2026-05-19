@@ -11,7 +11,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "zh-CN",
-    baseUrl: "https://todaymvp.github.io",
+    baseUrl: "todaymvp.github.io",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
     theme: {
