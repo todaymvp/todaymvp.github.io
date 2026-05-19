@@ -6,7 +6,7 @@ tags:
   - pwn
 ---
 
-# 一.栈迁移
+## 一.栈迁移
 例题下载地址:[ciscn_2019_s_4](https://buuoj.cn/challenges#ciscn_2019_s_4)
 ## 1.前景导入
  一个栈题关键代码如下：
