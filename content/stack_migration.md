@@ -114,15 +114,16 @@ payload = (b'aaaa'+p32(system)+p32(0)+p32(ebp-0x28)+b'/bin/sh').ljust(0x28,b'\x0
 p.sendline(payload)
 p.interactive()
 ```
-- 现在在vul函数的nop中下了断点，等发送了两次payload就会停在vul函数的nop中，nop指令后面是`leave`和`ret`，正常的执行流程是**leave后就让ebp回到main函数的栈帧**，但被我们把ebp覆盖成栈顶了，这样就把栈底覆盖到栈顶了。现在看实际的内存情况
+>这个payload的思路及就是**由于溢出空间不够**，我们*不能在返回地址上构造ROP链*，只好在缓冲区起点处构造rop链，而要执行栈上的主要操作**都和ebp有关**，***所以我们要把ebp寄存器迁移到缓冲区起点***，**这就是栈迁移**.
+- 现在在vul函数的nop中下了断点，等发送了两次payload就会停在vul函数的nop中，nop指令后面是`leave`和`ret`，正常的执行流程是**leave后就让ebp回到main函数的栈帧**，但被我们把ebp覆盖到缓冲区起点了，这样就把栈顶重新覆盖到缓冲区起点上了。现在看实际的内存情况
 ### 3.2调试分析栈迁移：
 ![[Pasted image 20260518200149.png|leave之前]]
-	现在程序执行了`NOP`,停在`leave`之前,我们发现，`ebp`处的值已经被我们覆盖为栈顶的地址了，*ebp+4的返回地址*被我们覆盖为`leave ,ret`指令,我们把**rop链**放到了栈顶上。接下来执行下一条汇编指令,`leave`:
+	现在程序执行了`NOP`,停在`leave`之前,我们发现，`ebp`处的值已经被我们覆盖为栈顶的地址了，*ebp+4的返回地址*被我们覆盖为`leave ,ret`指令,我们把**rop链**放到了缓冲区上。接下来执行下一条汇编指令,`leave`:
 ![[Pasted image 20260518200623.png|leave后，ret前]]
-	现在已经执行了`leave`,`ebp`被迁移到原来栈顶的位置，而`esp`移动到返回地址上，准备执行函数原来就有的`ret指令`，而返回地址上是`leave,ret`,我们执行下一条汇编指令：`ret`即`pop eip`
+	现在已经执行了`leave`,`ebp`被迁移到了缓冲区起点，而`esp`移动到返回地址上，准备执行函数原来就有的`ret指令`，而返回地址上是`leave,ret`,我们执行下一条汇编指令：`ret`即`pop eip`
 ![[Pasted image 20260518201620.png|ret之后]]
 	现在，我们的payload里面的`leave,ret`被填入eip寄存器，即将再次执行`leave `
-，将会把`esp指针`放到`ebp`处，即`esp`又回到最开始的栈顶，以便执行我们的*rop链*，然后`ebp`指向0xaaaa
+，将会把`esp指针`放到`ebp`处，即`esp`又回到缓冲区起点，以便执行我们的*rop链*，然后`ebp`指向0xaaaa。现在**已经完成了对ebp指针的控制,迁移到了缓冲区起点,大概的栈迁移已经完成**，接下来是rop链的执行:
 ![[Pasted image 20260518201922.png|我们填充的leave执行前]]
 	现在栈迁移完成了，然后还有一个`leave,ret`的指令里面的`ret`指令即将执行，使得`esp`指针抬高四字节，指向`system`,最终执行`system('bin/sh')`
 ![[Pasted image 20260518202131.png|成功执行system('bin/sh']]
@@ -140,14 +141,15 @@ p.interactive()
 |[ebp]同理|0xffb12520|0xffb12520|0xaaaa|0xaaaa|不重要|
 |eip|leave1|push ebp|ret|leave|ret|
 ### 3.4总结原理:
-- 第一个leave是让ebp迁移到原来的栈顶，但这个时候esp还没迁移过来，不好劫持程序流程
-- 第二个leave是让esp迁移会原来的栈顶，方便执行`system('.bin/sh')`
+- 第一个leave是让ebp迁移到缓冲区起点，但这个时候esp还没迁移过来，不好劫持程序流程
+- 第二个leave是让esp跟着ebp迁移到缓冲区取点，栈迁移，方便执行rop链
 
 **只要你能想明白3.3的表格，那么你就能想明白栈迁移到原理。**
 
 	栈迁移原理大概就是这样，最好自己gdb调试看看
 **学习心得**
 > 我也是从栈迁移才开始**从程序执行流程来想**，用gdb来看，才明白程序的执行流程，感觉真的明白了pwn。*在这之前都是脚本小子，只会套模板构造payload*
+> 栈这个数据结构主要操作都要**通过栈顶指针寄存器**,所以得重新把栈顶指针迁移到缓冲区起点。
 ## 4.复现
 ### 4.1 前置准备
 - 获取,可用的gadget `leave ,ret`的指令地址,获取system的plt地址
