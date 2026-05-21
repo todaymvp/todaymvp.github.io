@@ -123,8 +123,9 @@ p.interactive()
 	现在已经执行了`leave`,`ebp`被迁移到了缓冲区起点，而`esp`移动到返回地址上，准备执行函数原来就有的`ret指令`，而返回地址上是`leave,ret`,我们执行下一条汇编指令：`ret`即`pop eip`
 ![[Pasted image 20260518201620.png|ret之后]]
 	现在，我们的payload里面的`leave,ret`被填入eip寄存器，即将再次执行`leave `
-，将会把`esp指针`放到`ebp`处，即`esp`又回到缓冲区起点，以便执行我们的*rop链*，然后`ebp`指向0xaaaa。现在**已经完成了对ebp指针的控制,迁移到了缓冲区起点,大概的栈迁移已经完成**，接下来是rop链的执行:
+，将会把`esp指针`放到`ebp`处，即`esp`又回到缓冲区起点，以便执行我们的*rop链*，然后`ebp`指向0xaaaa。
 ![[Pasted image 20260518201922.png|我们填充的leave执行前]]
+**已经完成了对esp指针的控制,迁移到了缓冲区起点,大概的栈迁移已经完成**，接下来是rop链的执行:
 	现在栈迁移完成了，然后还有一个`leave,ret`的指令里面的`ret`指令即将执行，使得`esp`指针抬高四字节，指向`system`,最终执行`system('bin/sh')`
 ![[Pasted image 20260518202131.png|成功执行system('bin/sh']]
 
