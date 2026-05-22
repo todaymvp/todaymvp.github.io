@@ -9,7 +9,7 @@
     <title>PWN之栈迁移详解</title>
     <link>https://todaymvp.github.io/stack_migration</link>
     <guid>https://todaymvp.github.io/stack_migration</guid>
-    <description><![CDATA[ 本文深入浅出地讲解了栈迁移技术的原理、利用条件和完整的EXP编写过程。重点在于gdb调试以认真观察栈迁移的原理。 ]]></description>
+    <description><![CDATA[ 本文从栈帧结构与leave/ret机制出发，结合ciscn_2019_s_4实例与GDB动态调试，深入浅出地拆解栈迁移的原理、利用条件及EXP构造全过程。 ]]></description>
     <pubDate>Thu, 21 May 2026 12:17:33 GMT</pubDate>
   </item><item>
     <title>步六孤的二进制博客</title>

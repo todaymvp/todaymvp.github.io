@@ -63,7 +63,7 @@ export const defaultListPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.Search(),
-    //Component.Darkmode(),
+    Component.Darkmode(),
     Component.Explorer(),
   ],
   right: [
