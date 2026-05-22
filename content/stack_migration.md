@@ -274,7 +274,7 @@ p.interactive()
  ```
  这样就能拿到`main`的`ebp`了，而缓冲区起点则是`ebp-0x28`即`main_ebp-0x38`
  ### 4.3分析
- 有`system函数`但没`/bin/sh`字符串。那我们计算，第二次leave后，即mov esp,ebp,push ebp.
+ 有`system函数`但没`/bin/sh`字符串。那我们计算，第二次`leave`后，即`mov esp,ebp,push ebp`.
  - `mov esp,ebp`,此时`esp`回到缓冲区起点，即`esp= main_ebp-0x38`,
  - `pop ebp`,此时`esp= esp+4`,即`esp = main_ebp - 0x34`
  - 而`esp`指向的 `main_ebp - 0x34`处要放`system_plt`调用`system`函数
