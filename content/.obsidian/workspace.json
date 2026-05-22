@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
-                "mode": "preview",
+                "file": "stack_pivoting.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "stack_pivoting"
             }
           }
         ]
@@ -223,8 +223,8 @@
   },
   "active": "debfc0af6f1c3561",
   "lastOpenFiles": [
-    "stack_pivoting.md",
     "index.md",
+    "stack_pivoting.md",
     "stack/基础/函数栈帧.md",
     "stack/基础/内存地址.md",
     "stack/操作/scripts.md",

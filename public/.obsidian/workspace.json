@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "stack_migration.md",
+                "file": "stack_pivoting.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "stack_migration"
+              "title": "stack_pivoting"
             }
           }
         ]
@@ -224,6 +224,7 @@
   "active": "debfc0af6f1c3561",
   "lastOpenFiles": [
     "index.md",
+    "stack_pivoting.md",
     "stack/基础/函数栈帧.md",
     "stack/基础/内存地址.md",
     "stack/操作/scripts.md",
@@ -250,7 +251,6 @@
     "stack/wrireup/栈溢出.md",
     "stack/wrireup/ret系列.md",
     "未命名.md",
-    "欢迎.md",
     "glibc_2.35",
     "gdb",
     "stack/操作",
