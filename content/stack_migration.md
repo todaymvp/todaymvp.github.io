@@ -1,5 +1,6 @@
 ---
 title: PWN之栈迁移详解
+date: 2026-05-15
 description: 本文从栈帧结构与leave/ret机制出发，结合ciscn_2019_s_4实例与GDB动态调试，深入浅出地拆解栈迁移的原理、利用条件及EXP构造全过程。
 tags:
   - stack
