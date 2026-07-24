@@ -263,7 +263,7 @@ p.interactive()
 >  
 >    🎊 `T0d@y{Welcome_to_Hjsec_Today}` 🎊
 > 
->  🎉 恭喜！快去提交 flag 吧～这个就是完整flag了，直接提交就好
+> 	 🎉 恭喜！快去提交 `f l a g` 吧～这个就是完整`f l a g`了，直接提交就好
 > 
 > 招新练习赛的`pwn`不懂就来问我吧!
 ## 4.复现:payload构造思路
