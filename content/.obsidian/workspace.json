@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "stack_migration.md",
-                "mode": "preview",
+                "file": "index.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "stack_migration"
+              "title": "index"
             }
           }
         ]
@@ -223,8 +223,8 @@
   },
   "active": "debfc0af6f1c3561",
   "lastOpenFiles": [
-    "index.md",
     "stack_migration.md",
+    "index.md",
     "stack/基础/函数栈帧.md",
     "stack/基础/内存地址.md",
     "stack/操作/scripts.md",
